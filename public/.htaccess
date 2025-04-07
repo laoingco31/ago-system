@@ -1,0 +1,9 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Ensure that the base path is correct (use public directory)
+    RewriteBase /
+
+    # Redirect requests to index.php
+    RewriteRule ^(.*)$ index.php [L]
+</IfModule>
