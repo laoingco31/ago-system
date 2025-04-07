@@ -1,22 +1,27 @@
 <?php
 
-/**
- * Laravel - A PHP Framework For Web Artisans.
- *
- * @package  Laravel
- * @author   Taylor Otwell
- */
+use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 
+define('LARAVEL_START', microtime(true));
+
+// Check if the application is in maintenance mode
+if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
+    require $maintenance;
+}
+
+// Register the Composer autoloader
 require __DIR__.'/../vendor/autoload.php';
 
+// Bootstrap the Laravel application
+/** @var Application $app */
 $app = require_once __DIR__.'/../bootstrap/app.php';
 
-$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+// Handle the incoming request
+$response = $app->make(Illuminate\Contracts\Http\Kernel::class)->handle(Request::capture());
 
-$response = $kernel->handle(
-    $request = Illuminate\Http\Request::capture()
-);
-
+// Send the response to the browser
 $response->send();
 
-$kernel->terminate($request, $response);
+// Terminate the application
+$app->terminate(Request::capture(), $response);
