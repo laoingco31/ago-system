@@ -15,10 +15,12 @@ require __DIR__.'/../vendor/autoload.php';
 
 // I-bootstrap ang Laravel at i-handle ang request
 /** @var Application $app */
-$app = require_once __DIR__.'/../bootstrap/welcome.php';
+$app = require_once __DIR__.'/../bootstrap/app.php';
 
 // I-handle ang request
-$response = $app->make(Illuminate\Contracts\Http\Kernel::class)->handle(Request::capture());
+$response = $app->make(Illuminate\Contracts\Http\Kernel::class)->handle(
+    Request::capture()
+);
 
 // I-send ang response sa browser
 $response->send();
